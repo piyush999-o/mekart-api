@@ -1,0 +1,23 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "This is mkart E-commerce application API side",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server"
+  },
+  "keywords": [
+    "Mkart-Server",
+    "mkart-API"
+  ],
+  "author": "Piyush",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.2",
+    "googleapis": "^92.0.0",
+    "mongoose": "^6.1.5",
+    "multer": "^1.4.4",
+    "nodemon": "^2.0.15"
+  }
+}
