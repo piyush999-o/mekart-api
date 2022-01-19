@@ -2,7 +2,6 @@ const express = require("express");
 const ConnectToMongo = require("../db/db.js");
 const Product = require("../models/product.js");
 const multer = require("multer");
-const fs = require("fs");
 
 const { google } = require("googleapis");
 const OAuth2Data = require("../credentials.json");
@@ -42,7 +41,7 @@ const storage = multer.diskStorage({
 
 let upload = multer({ storage: storage });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
     const products = await Product.find();
     res.json(products);
 });
