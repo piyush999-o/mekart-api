@@ -52,35 +52,6 @@ router.post("/new", upload.single("productImage"), async (req, res) => {
         const { title, description, category, price } = req.body;
         const { path } = req.file;
 
-        upload(req, res, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                const drive = google.drive({ version: "v3", auth: OAuth2Client });
-                const fileMetadata = {
-                    name: req.file.filename,
-                };
-                const media = {
-                    MimeType: req.file.mimetype,
-                    body: fs.createReadStream(req.file.path),
-                };
-                drive.files.create(
-                    {
-                        resource: fileMetadata,
-                        media: media,
-                        fields: "id",
-                    },
-                    (err, file) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            fs.unlinkSync(path);
-                        }
-                    }
-                );
-            }
-        });
-
         const product = new Product({
             title,
             description,
