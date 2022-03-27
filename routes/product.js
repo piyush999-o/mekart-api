@@ -30,7 +30,7 @@ const SCOPES =
 // multer Storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./uploads");
+        cb(null, "./public/uploads");
     },
     filename: (req, file, cb) => {
         const date = Date.now().toString();
@@ -49,7 +49,9 @@ router.get("/", async (req, res, next) => {
 router.post("/new", upload.single("productImage"), async (req, res) => {
     try {
         const { title, description, category, price } = req.body;
-        const { path } = req.file;
+        let { path } = req.file;
+        path = path.replace('uploads\\/public\\/', '/')
+        path = path.replace("public\\", "/")
 
         const product = new Product({
             title,
@@ -64,6 +66,21 @@ router.post("/new", upload.single("productImage"), async (req, res) => {
         console.log(error);
     }
 });
+
+// ROUTE:3 for Deleting product using DELETE - /product/delete/:id
+router.delete("/:_id", async (req, res, next) => {
+    const productId = req.params._id;
+    const product = await Product.findByIdAndDelete(productId);
+    res.json(`(${product}) deleted Successfully`);
+  });
+  
+  // ROUTE:4 for Getting Particular Product information using GET - /product/:id
+  router.get("/:_id", async (req, res, next) => {
+    const productId = req.params._id;
+    const product = await Product.findById(productId);
+    res.json(product);
+  });
+  
 
 // google APIs
 router.get("/google/api", (req, res) => {
